@@ -64,10 +64,10 @@ npm install tofixed  --save
 npm install mongoose --save
 cd ..
 
-
-cd cafemates-geolocation-users
+cd cafemates-geolocation-services
 npm install
 npm install asyncawait --save
+npm install bcrypt  --save
 npm install bluebird --save
 npm install dotenv --save
 npm install jsonwebtoken --save
@@ -75,5 +75,6 @@ npm install node-datetime --save
 npm install pg-promise --save
 npm install sluger --save
 npm install tofixed  --save
-npm install moment --save
+npm install get-age --save
+npm install http-errors --save
 cd ..
