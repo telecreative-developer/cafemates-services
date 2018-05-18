@@ -157,26 +157,24 @@ ALTER SEQUENCE public.chatting_chatting_id_seq OWNED BY public.chatting.chatting
 
 
 --
--- Name: chatting_group; Type: TABLE; Schema: public; Owner: postgres
+-- Name: notification; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.chatting_group (
-    chatting_group_id integer NOT NULL,
-    content text,
+CREATE TABLE public.notification (
+    notification_id integer NOT NULL,
     id integer,
-    sender_id integer,
-    created_at date,
-    updated_at date
+    status_notification integer,
+    sender_id integer
 );
 
 
-ALTER TABLE public.chatting_group OWNER TO postgres;
+ALTER TABLE public.notification OWNER TO postgres;
 
 --
--- Name: chatting_group_chatting_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: notification_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.chatting_group_chatting_group_id_seq
+CREATE SEQUENCE public.notification_notification_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -185,13 +183,13 @@ CREATE SEQUENCE public.chatting_group_chatting_group_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.chatting_group_chatting_group_id_seq OWNER TO postgres;
+ALTER TABLE public.notification_notification_id_seq OWNER TO postgres;
 
 --
--- Name: chatting_group_chatting_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: notification_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.chatting_group_chatting_group_id_seq OWNED BY public.chatting_group.chatting_group_id;
+ALTER SEQUENCE public.notification_notification_id_seq OWNED BY public.notification.notification_id;
 
 
 --
@@ -273,10 +271,10 @@ ALTER TABLE ONLY public.chatting ALTER COLUMN chatting_id SET DEFAULT nextval('p
 
 
 --
--- Name: chatting_group chatting_group_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: notification notification_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.chatting_group ALTER COLUMN chatting_group_id SET DEFAULT nextval('public.chatting_group_chatting_group_id_seq'::regclass);
+ALTER TABLE ONLY public.notification ALTER COLUMN notification_id SET DEFAULT nextval('public.notification_notification_id_seq'::regclass);
 
 
 --
@@ -315,14 +313,25 @@ COPY public.cafemates_groups (cafemates_group_id, id, cafemate_id, created_at, u
 
 COPY public.chatting (chatting_id, content, sender_id, updated_at, created_at, id, code_id) FROM stdin;
 6	chatting_with token	8	2018-05-17	2018-05-17	8	\N
+7	test1	8	2018-05-18	2018-05-18	9	82094410-5a7c-11e8-8b5f-7f8b683a50f8
+8	test1	8	2018-05-18	2018-05-18	9	89a92b90-5a7c-11e8-974c-1fb4338553b0
+9	wna	9	2018-05-18	2018-05-18	8	c1fbcf70-5a7c-11e8-b09d-8793a652757d
+10	wna	9	2018-05-18	2018-05-18	8	undefined
+11	wna	9	2018-05-18	2018-05-18	8	undefined
+12	wna	9	2018-05-18	2018-05-18	8	undefined
+13	gimana	9	2018-05-18	2018-05-18	8	c1fbcf70-5a7c-11e8-b09d-8793a652757d
+14	harusnyaa	9	2018-05-18	2018-05-18	8	c1fbcf70-5a7c-11e8-b09d-8793a652757d
+15	harusnyaa	11	2018-05-18	2018-05-18	12	29aa5240-5a7d-11e8-a894-9305650c4692
+16	gi	11	2018-05-18	2018-05-18	12	29aa5240-5a7d-11e8-a894-9305650c4692
 \.
 
 
 --
--- Data for Name: chatting_group; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: notification; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.chatting_group (chatting_group_id, content, id, sender_id, created_at, updated_at) FROM stdin;
+COPY public.notification (notification_id, id, status_notification, sender_id) FROM stdin;
+8	9	3	8
 \.
 
 
@@ -357,14 +366,14 @@ SELECT pg_catalog.setval('public.basecamp_group_basecamp_group_id_seq', 3, true)
 -- Name: chatting_chatting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chatting_chatting_id_seq', 6, true);
+SELECT pg_catalog.setval('public.chatting_chatting_id_seq', 16, true);
 
 
 --
--- Name: chatting_group_chatting_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: notification_notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chatting_group_chatting_group_id_seq', 1, false);
+SELECT pg_catalog.setval('public.notification_notification_id_seq', 1, false);
 
 
 --
@@ -391,19 +400,19 @@ ALTER TABLE ONLY public.cafemates
 
 
 --
--- Name: chatting_group chatting_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.chatting_group
-    ADD CONSTRAINT chatting_group_pkey PRIMARY KEY (chatting_group_id);
-
-
---
 -- Name: chatting chatting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.chatting
     ADD CONSTRAINT chatting_pkey PRIMARY KEY (chatting_id);
+
+
+--
+-- Name: notification notification_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notification
+    ADD CONSTRAINT notification_pkey PRIMARY KEY (notification_id);
 
 
 --

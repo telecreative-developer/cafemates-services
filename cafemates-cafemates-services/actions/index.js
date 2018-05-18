@@ -110,6 +110,15 @@ exports.joinCafemates = async((data) => {
         '${datetime.create().format('Y-m-d')}'
       )
     `))
+
+    const notification = await(db.any(`
+        INSERT INTO notification(id, status_notification, sender_id)
+        VALUES(
+          '${data.master_room_id}',
+          '1',
+          '${data.id}'
+        )
+     `))
     return successResponse(response, 'Berhasil Join ke Cafemates', 200)
   }catch(e) {
     console.log(e)
@@ -161,6 +170,14 @@ exports.acceptJoin = async((data) => {
     const response = await(db.any(`
       UPDATE cafemates_groups SET status_approved='3' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}'
      `))
+     const notification = await(db.any(`
+        INSERT INTO notification(id, status_notification, sender_id)
+        VALUES(
+          '${data.id}',
+          '3',
+          '${data.sender_id}'
+        )
+     `))
     return successResponse(response, 'Berhasil Menerima request ', 200)
   }catch(e) {
     console.log(e)
@@ -173,9 +190,33 @@ exports.rejectJoin = async((data) => {
     const response = await(db.any(`
     UPDATE cafemates_groups SET status_approved='2' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}' 
     `))
+
+    const notification = await(db.any(`
+        INSERT INTO notification(id, status_notification, sender_id)
+        VALUES(
+          '${data.id}',
+          '2',
+          '${data.sender_id}'
+        )
+    `))
     return successResponse(response, 'Berhasil Menolak request ', 200)
   }catch(e) {
     console.log(e)
     return errorResponse(e, 500)
   }
 })
+
+
+exports.getNotification = async((id) => {
+  try{
+    const response = await(db.any(`
+    SELECT  first_name, last_name, status_notification, notification.id, sender_id FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
+    `))
+    return successResponse(response, 'Berhasil Mendapatkan Notification ', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
+
