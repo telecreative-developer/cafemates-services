@@ -37,9 +37,7 @@ exports.retrieveChatting = async((id) => {
 
 exports.postChatting = async((data) => {
   try{
-    const check_chatting = await(db.any(`SELECT code_id FROM chatting WHERE chatting.id='${data.id}' and sender_id='${data.sender_id}'`))
-    if(check_chatting.length){
-      const response = await(db.any(`
+    const response = await(db.any(`
         INSERT INTO chatting(content, sender_id, id, code_id, updated_at, created_at)
         VALUES(
           '${data.content}',
@@ -49,22 +47,9 @@ exports.postChatting = async((data) => {
           '${datetime.create().format('Y-m-d')}',
           '${datetime.create().format('Y-m-d')}'
         )
-      `))
+    `))
     return successResponse(response, 'Berhasil Mengirimkan Chatting', 200)
-    } else{
-      const response = await(db.any(`
-        INSERT INTO chatting(content, sender_id, id, code_id, updated_at, created_at)
-        VALUES(
-          '${data.content}',
-          '${data.sender_id}',
-          '${data.id}',
-          '${uuidv1()}',
-          '${datetime.create().format('Y-m-d')}',
-          '${datetime.create().format('Y-m-d')}'
-        )
-      `))
-      return successResponse(response, 'Berhasil Mengirimkan Chatting', 200)
-    }
+    
     
   }catch(e) {
     console.log(e)
