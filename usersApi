@@ -1,0 +1,75 @@
+=============================================================
+USER API
+==============================================================
+METHOD (GET)
+---------------------------------------------------------------
+* api/v1/users/:id  //GET USER BY ID USER (AUTH REQUIRED)
+	-COLUMN REQUIRED : id /(SENT PARAMS)
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (POST)
+* api/v1/users/register //REGISTER USERS 
+	-COLUMN:first_name,
+            last_name,
+            email,
+            password,
+            avatar_url,
+            gender(1/0),
+            aggrement(1/0),
+            bod /(SENT BODY)
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (PUT)
+* api/v1/users/update/:id  //UPDATE USERS BY ID (AUTH REQUIRED)
+	-COLUMN:first_name,
+            last_name,
+            email,
+            password,
+            avatar_url,
+            gender(1/0),
+            aggrement(1/0),
+            bod,
+            instagram_url,
+            facebook_url,
+            avatar_url,
+            gender,
+            company,
+            phone,
+            about
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (PUT)
+* api/v1/users/change-password/:id //CHANGE PASSWORD BY ID USER (AUTH REQUIRED)
+    -COLUMN:password_old,
+            password_new
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (PUT)
+* api/v1/users/change-avatar/:id //CHANGE AVATAR BY ID USER (AUTH REQUIRED)
+    -COLUMN:avatar_url
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (PUT)
+* api/v1/users/change-cover/:id  //CHANGE COVER BY ID USER (AUTH REQUIRED)
+    -COLUMN:cover_url
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (PUT)
+* api/v1/users/deactived-user/:id //DEACTIVED USER BY ID (AUTH REQUIRED)
+---------------------------------------------------------------
+
+---------------------------------------------------------------
+METHOD (DELETE)
+* api/v1/users/delete-user/:id //DELETE USER BY ID (AUTH REQUIRED)
+---------------------------------------------------------------
+
+
+
+
+CAFEMATES = untuk show user yang nongkrong
