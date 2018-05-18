@@ -63,7 +63,7 @@ exports.retrieveBasecampByID = async((id) => {
 
 exports.postCafemates = async((data) => {
   try{
-    const expired = moment().add(5 ,'hours')
+    const expired = moment().add(15 ,'hours')
     const response = await(db.any(`
       INSERT INTO cafemates(id, location_name, longitude, latitude, description, status_cafemates, type_cafemates, expired, created_at, updated_at)
       VALUES(
@@ -98,14 +98,16 @@ exports.deactiveCafemates = async((id) => {
 //JOIN
 exports.joinCafemates = async((data) => {
   try{
+    const expired = moment().add(15 ,'hours')
     const response = await(db.any(`
-      INSERT INTO cafemates_groups(id, cafemates_id, status_approved, master_room_id, status_group_cafemates, created_at, updated_at)
+      INSERT INTO cafemates_groups(id, cafemates_id, status_approved, master_room_id, status_group_cafemates, expired,created_at, updated_at)
       VALUES(
         '${data.id}',
         '${data.cafemates_id}',
         '1',
         '${data.master_room_id}',
         '1',
+        '${expired}',
         '${datetime.create().format('Y-m-d')}',
         '${datetime.create().format('Y-m-d')}'
       )
