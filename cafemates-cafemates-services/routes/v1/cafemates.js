@@ -24,7 +24,7 @@ router.get('/:id', async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-router.post('/post', authentication, async(function(req, res, next) {
+router.post('/post', async(function(req, res, next) {
   const response = await(postCafemates(req.body))
   return res.status(response.status).json(response)
 }))
