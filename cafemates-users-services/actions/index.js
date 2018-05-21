@@ -55,7 +55,7 @@ exports.updateUser = async((id, data) => {
         UPDATE users SET
             first_name='${data.first_name}',
             last_name='${data.last_name}',
-            username='${data.username}'
+            username='${data.username}',
             jobs='${data.jobs}',
             age='${getAge(data.bod)}',
             bod='${data.bod}',
@@ -71,6 +71,7 @@ exports.updateUser = async((id, data) => {
             background_url='${data.background_url}'
         WHERE id='${id}'
       `))
+      console.log('no password')
       return successResponse(response, 'Berhasil Merubah Data user', 200)
     }
     else{
@@ -78,7 +79,7 @@ exports.updateUser = async((id, data) => {
         UPDATE users SET
             first_name='${data.first_name}',
             last_name='${data.last_name}',
-            username='${data.username}'
+            username='${data.username}',
             jobs='${data.jobs}',
             age='${getAge(data.bod)}',
             bod='${data.bod}',
@@ -95,6 +96,7 @@ exports.updateUser = async((id, data) => {
             password='${bcrypt.hashSync(data.password, salt)}'
         WHERE id='${id}'
       `))
+      console.log('password')
       return successResponse(response, 'Berhasil Merubah Data user', 200)
     }
   }catch(e) {
