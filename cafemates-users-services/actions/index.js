@@ -50,24 +50,53 @@ exports.registerUsers = async((data) => {
 
 exports.updateUser = async((id, data) => {
   try{
-    const response = await(db.any(`
-      UPDATE users SET
-          first_name='${data.first_name}',
-          last_name='${data.last_name}',
-          jobs='${data.jobs}',
-          age='${getAge(data.bod)}',
-          bod='${data.bod}',
-          bop='${data.bop}',
-          instagram_url='${data.instagram_url}',
-          facebook_url='${data.facebook_url}',
-          avatar_url='${data.avatar_url}',
-          gender='${data.gender}',
-          company='${data.company}',
-          phone='${data.phone}',
-          about='${data.about}'
-      WHERE id='${id}'
-    `))
-    return successResponse(response, 'Berhasil Merubah Data user', 200)
+    if(data.password === null || data.password === ""){
+      const response = await(db.any(`
+        UPDATE users SET
+            first_name='${data.first_name}',
+            last_name='${data.last_name}',
+            username='${data.username}'
+            jobs='${data.jobs}',
+            age='${getAge(data.bod)}',
+            bod='${data.bod}',
+            bop='${data.bop}',
+            instagram_url='${data.instagram_url}',
+            facebook_url='${data.facebook_url}',
+            avatar_url='${data.avatar_url}',
+            gender='${data.gender}',
+            company='${data.company}',
+            phone='${data.phone}',
+            about='${data.about}',
+            email='${data.email}',
+            background_url='${data.background_url}'
+        WHERE id='${id}'
+      `))
+      return successResponse(response, 'Berhasil Merubah Data user', 200)
+    }
+    else{
+      const response = await(db.any(`
+        UPDATE users SET
+            first_name='${data.first_name}',
+            last_name='${data.last_name}',
+            username='${data.username}'
+            jobs='${data.jobs}',
+            age='${getAge(data.bod)}',
+            bod='${data.bod}',
+            bop='${data.bop}',
+            instagram_url='${data.instagram_url}',
+            facebook_url='${data.facebook_url}',
+            avatar_url='${data.avatar_url}',
+            gender='${data.gender}',
+            company='${data.company}',
+            phone='${data.phone}',
+            about='${data.about}',
+            email='${data.email}',
+            background_url='${data.background_url}',
+            password='${bcrypt.hashSync(data.password, salt)}'
+        WHERE id='${id}'
+      `))
+      return successResponse(response, 'Berhasil Merubah Data user', 200)
+    }
   }catch(e) {
     console.log(e)
     return errorResponse(e, 500)
