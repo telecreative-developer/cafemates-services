@@ -72,10 +72,7 @@ router.get('/pending-me/:id', authentication, async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-router.post('/end-location', authentication, async(function(req, res, next) {
-  const response = await(expiredTime(req.body))
-  return res.status(response.status).json(response)
-}))
+
 
 router.get('/get-notification/:id', async(function(req, res, next) {
   const response = await(getNotification(req.params.id))
