@@ -132,7 +132,7 @@ exports.waitingApproved = async((id) => {
   try{
     const response = await(db.any(`
       SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 10
+      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 1
     `)) 
     return successResponse(response, 'Berhasil Mendapatkan user pendding', 200)
   }catch(e) {
@@ -145,7 +145,7 @@ exports.waitingApprovedByOther = async((id) => {
   try{
     const response = await(db.any(`
     SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 10
+    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 1
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
   }catch(e) {
