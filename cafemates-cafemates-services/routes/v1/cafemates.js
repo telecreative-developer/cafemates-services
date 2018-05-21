@@ -17,8 +17,6 @@ router.get('/confirm-list/:id', async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-
-
 router.get('/:id', async(function(req, res, next) {
   const response = await(retrieveCafematesByID(req.params.id))
   return res.status(response.status).json(response)
