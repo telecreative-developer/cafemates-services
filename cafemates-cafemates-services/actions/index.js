@@ -64,7 +64,7 @@ exports.retrieveBasecampByID = async((id) => {
 exports.postCafemates = async((data) => {
   try{
     const expired = moment().add(15 ,'hours')
-    const response = db.any(`
+    const insertCafemates = db.any(`
       INSERT INTO cafemates(id, location_name, longitude, latitude, description, status_cafemates, type_cafemates, expired, created_at, updated_at)
       VALUES(
         '${data.id}',
@@ -81,9 +81,10 @@ exports.postCafemates = async((data) => {
     `)
     .then((response) => {
       console.log(response)
+      //const selectCafemates = db.any(`SELECT * FROM cafemates WHERE cafemates_id='${response.insertId}'`)
       return successResponse(response, 'Berhasil Menambahkan Cafemates', 200)
     })
-    .catch((error) =>{
+    .catch((error) => {
       console.log(error)
       return errorResponse(error, 500)
     })
