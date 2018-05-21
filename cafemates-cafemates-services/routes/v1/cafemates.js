@@ -12,7 +12,7 @@ router.get('/', async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-router.get('/confirm-users/:id', async(function(req, res, next) {
+router.get('/confirm-list/:id', async(function(req, res, next) {
   const response = await(confirmUserList(req.params.id))
   return res.status(response.status).json(response)
 }))
