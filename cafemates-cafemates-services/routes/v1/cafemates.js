@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { getNotification, endLocation, retrieveCafemates, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
+const { confirmUserList, getNotification, endLocation, retrieveCafemates, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
 const authentication = require('../../authentication')
 
 
@@ -11,6 +11,13 @@ router.get('/', async(function(req, res, next) {
   const response = await(retrieveCafemates())
   return res.status(response.status).json(response)
 }))
+
+router.get('/confirm-users/:id', async(function(req, res, next) {
+  const response = await(confirmUserList(req.params.id))
+  return res.status(response.status).json(response)
+}))
+
+
 
 router.get('/:id', async(function(req, res, next) {
   const response = await(retrieveCafematesByID(req.params.id))

@@ -64,7 +64,7 @@ exports.retrieveBasecampByID = async((id) => {
 exports.postCafemates = async((data) => {
   try{
     const expired = moment().add(15 ,'hours')
-    const response = await(db.any(`
+    const response = db.any(`
       INSERT INTO cafemates(id, location_name, longitude, latitude, description, status_cafemates, type_cafemates, expired, created_at, updated_at)
       VALUES(
         '${data.id}',
@@ -78,8 +78,15 @@ exports.postCafemates = async((data) => {
         '${datetime.create().format('Y-m-d')}',
         '${datetime.create().format('Y-m-d')}'
       )
-    `))
-    return successResponse(response, 'Berhasil Menambahkan Cafemates', 200)
+    `)
+    .then((response) => {
+      console.log(response)
+      return successResponse(response, 'Berhasil Menambahkan Cafemates', 200)
+    })
+    .catch((error) =>{
+      console.log(error)
+      return errorResponse(error, 500)
+    })
   }catch(e) {
     console.log(e)
     return errorResponse(e, 500)
@@ -132,8 +139,8 @@ exports.waitingApproved = async((id) => {
   try{
     const response = await(db.any(`
       SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1'
-    `))
+      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' LIMIT 10
+    `)) 
     return successResponse(response, 'Berhasil Mendapatkan user pendding', 200)
   }catch(e) {
     console.log(e)
@@ -144,8 +151,21 @@ exports.waitingApproved = async((id) => {
 exports.waitingApprovedByOther = async((id) => {
   try{
     const response = await(db.any(`
-      SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND cafemates_groups.id='${id}'  AND status_approved='1' AND status_group_cafemates='1'
+    SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
+    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' LIMIT 10
+    `))
+    return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
+exports.confirmUserList = async((id) => {
+  try{
+    const response = await(db.any(`
+    SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
+    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='3' LIMIT 10
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
   }catch(e) {

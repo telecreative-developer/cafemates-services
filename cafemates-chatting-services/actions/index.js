@@ -23,6 +23,17 @@ exports.retrieveChattingById = async((id, sender_id) => {
   }
 })
 
+exports.deleteChatting = async((code_id) => {
+  try{
+    const response = await(db.any(`
+      DELETE FROM chatting WHERE code_id='${code_id}'
+    `))
+    return successResponse(response, 'Berhasil Menghapus data chatting', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
 
 exports.retrieveChatting = async((id) => {
   try{
