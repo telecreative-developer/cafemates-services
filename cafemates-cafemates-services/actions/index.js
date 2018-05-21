@@ -132,7 +132,7 @@ exports.waitingApproved = async((id) => {
   try{
     const response = await(db.any(`
       SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' LIMIT 10
+      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 10
     `)) 
     return successResponse(response, 'Berhasil Mendapatkan user pendding', 200)
   }catch(e) {
@@ -145,7 +145,7 @@ exports.waitingApprovedByOther = async((id) => {
   try{
     const response = await(db.any(`
     SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' LIMIT 10
+    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 10
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
   }catch(e) {
@@ -158,7 +158,7 @@ exports.confirmUserList = async((id) => {
   try{
     const response = await(db.any(`
     SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='3' LIMIT 10
+    FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='3' AND status_group_cafemates='1' LIMIT 10
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
   }catch(e) {
@@ -170,7 +170,19 @@ exports.confirmUserList = async((id) => {
 exports.removeRequest = async((id) => {
   try{
     const response = await(db.any(`
-      DELETE FROM cafemates_groups WHERE master_room_id='${id}' AND status_approved='1'
+      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE master_room_id='${id}' AND status_approved='1'
+    `))
+    return successResponse(response, 'Berhasil Menghapus semua request ', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
+exports.removeMyRequest = async((id) => {
+  try{
+    const response = await(db.any(`
+      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE id='${id}' AND status_approved='1'
     `))
     return successResponse(response, 'Berhasil Menghapus semua request ', 200)
   }catch(e) {
@@ -203,7 +215,7 @@ exports.acceptJoin = async((data) => {
 exports.rejectJoin = async((data) => {
   try{
     const response = await(db.any(`
-    UPDATE cafemates_groups SET status_approved='2' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}' 
+      UPDATE cafemates_groups SET status_approved='2' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}' 
     `))
 
     const notification = await(db.any(`
