@@ -45,12 +45,12 @@ copy script from .env.example
   
   `}`
   
-  `location /services_name1/ {`
+  `location /services_name1/ {'
   
         proxy_pass http://127.0.0.1:${port_services1}/;
         //more config
         
-  `}`
+  '}`
   
   `location /services_name2/ {`
   
@@ -65,6 +65,9 @@ copy script from .env.example
 running using PM2
 
 [PM2 Docs](http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/)
+
+# Testing
+http://xx.xx.xxxx/services_name/api/v1/services_name
 
 # Built With
 * Express js 4.16.0
