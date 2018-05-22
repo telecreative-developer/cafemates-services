@@ -35,6 +35,4 @@ JWT_SECRET_KEY2=aGVybWF3YW4tb3JsZW5kYS14LXNlcnZpY2Vz`
 # Versioning API
 1.0
 
-# Authors
-[Kevin Hermawan](https://github.com/kevinhermawan)
-[Dicky Perdian](https://github.com/dickydns)
+
