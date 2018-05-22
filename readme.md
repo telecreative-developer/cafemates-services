@@ -22,13 +22,12 @@ bash package.sh
 
 import database dbexport.pgsql
 
-# Configuration Database
+## Configuration Database
 create file .env 
 
 copy script from .env.example
 
-
-# Config Nginx Microservices
+## Config Nginx Microservices
 
 
 `server {`
@@ -45,12 +44,12 @@ copy script from .env.example
   
   `}`
   
-  `location /services_name1/ {'
+  `location /services_name1/ {`
   
         proxy_pass http://127.0.0.1:${port_services1}/;
         //more config
         
-  '}`
+  `}`
   
   `location /services_name2/ {`
   
