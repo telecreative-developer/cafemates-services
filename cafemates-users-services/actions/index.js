@@ -48,6 +48,11 @@ exports.registerUsers = async((data) => {
   }
 })
 
+
+
+
+
+
 exports.updateUser = async((id, data) => {
   try{
     if(data.password === null || data.password === ""){

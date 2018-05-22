@@ -10,6 +10,7 @@ npm install mysql2-bluebird --save
 npm install jsonwebtoken --save
 npm install uuid --save
 npm install pg-promise --save
+npm install http-errors --save
 cd ..
 
 cd cafemates-users-services
