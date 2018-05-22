@@ -16,8 +16,7 @@ METHOD (POST)
             password,
             avatar_url,
             gender(1/0),
-            aggrement(1/0),
-            bod /(SENT BODY)
+            bod
 ---------------------------------------------------------------
 
 ---------------------------------------------------------------
@@ -72,9 +71,6 @@ METHOD (DELETE)
 
 
 
-CAFEMATES = untuk show user yang nongkrong
-
-
 
 
 CONDITION BOOLEAN IN DATABASE
@@ -89,12 +85,12 @@ USERS LICENCE
 
 USERS STATUS
 * 1 ACTIVE
-* 2 NONAKTIF
+* 2 INACTIVE
 
 
 CAFEMATES STATUS
 * 1 ACTIVE
-* 0 NONAKTIF
+* 0 INACTIVE
 
 TYPE CAFEMATES
 * 0 HUNTING
@@ -108,7 +104,7 @@ STATUS_APPROVED
 
 STATUS_GROUP 
 * 1 ACTIVE
-* 0 NONAKTIF
+* 0 INACTIVE
 
 TYPE CAFEMATES
 * 1 HUNTING

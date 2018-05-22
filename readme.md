@@ -1,21 +1,21 @@
-# cafemates-services
+## cafemates-services
 Cafemates Services, Server Configuration
 
-# Getting Started
+## Getting Started
 clone poject
 `git clone https://github.com/telecreative-developer/cafemates-services/`
 
-# Requirements
+## Requirements
 
 * node v8.11.1 
 * npm 5.6.0
-* phyton
+* python
 * postgresql
 * pm2
 * Nginx
 * etc
 
-# Installing
+## Installing
 cd cafemates-services
 
 bash package.sh
@@ -60,16 +60,19 @@ copy script from .env.example
 `}`
 
 
-# Running
+## Running
 running using PM2
 
 [PM2 Docs](http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/)
 
-# Testing
+## Testing
 http://xx.xx.xxxx/services_name/api/v1/services_name
 
-# Built With
+## Built With
 * Express js 4.16.0
 
-# Versioning API
+## Versioning API
 1.0 (15 May 2018)
+
+##### possibility of error and how to solved
+[click me](https://www.google.com/)
