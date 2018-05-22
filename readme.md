@@ -19,7 +19,7 @@ clone poject
 `import database dbexport.pgsql`
 
 # Configuration 
-`create file .env, copy script from .env.example`
+`create file .env copy script from .env.example`
 
 `DATABASE_USER =  root
 DATABASE_HOST =  host
