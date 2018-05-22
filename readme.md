@@ -20,24 +20,10 @@ bash package.sh
 
 import database dbexport.pgsql
 
-# Configuration 
+# Configuration Database
 create file .env 
 
 copy script from .env.example
-
-DATABASE_USER =  root
-
-DATABASE_HOST =  host
-
-DATABASE = database
-
-DATABASE_PASSWORD = password  
-
-DATABASE_PORT =  port
-
-JWT_SECRET_KEY=a2V2aW4tb3JsZW5kYS14LXNlcnZpY2Vz
-
-JWT_SECRET_KEY2=aGVybWF3YW4tb3JsZW5kYS14LXNlcnZpY2Vz
 
 # Built With
 * Express js
