@@ -32,7 +32,7 @@ exports.registerUsers = async((data) => {
           '1',
           '${data.avatar_url}',
           '${data.gender}',
-          '${data.aggrement}',
+          '1,
           '${data.bod}',
           '${getAge(data.bod)}',
           '1',
