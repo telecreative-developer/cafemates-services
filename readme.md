@@ -74,6 +74,5 @@ http://xx.xx.xxxx/services_name/api/v1/services_name
 ## Versioning API
 1.0 (15 May 2018)
 
-
-### possibility of error
-[click me]()
+##### possibility of error and how to solved
+[click me](https://www.google.com/)
