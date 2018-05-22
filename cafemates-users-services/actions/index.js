@@ -108,8 +108,7 @@ exports.updateUser = async((id, data) => {
 exports.retrieveUsersByID = async((id) => {
   try{
     const response = await(db.any(`SELECT id, first_name, last_name,
-    jobs, age, bod, bop, instagram_url, facebook_url, avatar_url, province_id,
-    region_id, username, email, gender, status_user, created_at, updated_at FROM users WHERE id='${id}' AND status_user='1'`))
+    jobs, age, bod, bop, instagram_url, facebook_url, avatar_url, username, email, gender, status_user, created_at, updated_at FROM users WHERE id='${id}' AND status_user='1'`))
     
     return successResponse(response, 'Berhasil Mendapatkan data user', 200)
   }catch(e) {
