@@ -21,16 +21,13 @@ clone poject
 # Configuration 
 `create file .env, copy script from .env.example`
 
-`
-DATABASE_USER =  root
+`DATABASE_USER =  root
 DATABASE_HOST =  host
 DATABASE = database
 DATABASE_PASSWORD = password  
 DATABASE_PORT =  port
 JWT_SECRET_KEY=a2V2aW4tb3JsZW5kYS14LXNlcnZpY2Vz
-JWT_SECRET_KEY2=aGVybWF3YW4tb3JsZW5kYS14LXNlcnZpY2Vz
-
-`
+JWT_SECRET_KEY2=aGVybWF3YW4tb3JsZW5kYS14LXNlcnZpY2Vz`
 
 # Built With
 * Express js
@@ -39,5 +36,5 @@ JWT_SECRET_KEY2=aGVybWF3YW4tb3JsZW5kYS14LXNlcnZpY2Vz
 1.0
 
 # Authors
-Kevin Hermawan [a link](https://github.com/kevinhermawan)
-Dicky Perdian [a link](https://github.com/dickydns)
+[Kevin Hermawan](https://github.com/kevinhermawan)
+[Dicky Perdian](https://github.com/dickydns)
