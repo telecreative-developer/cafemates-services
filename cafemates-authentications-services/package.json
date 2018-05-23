@@ -20,6 +20,8 @@
     "mysql2": "^1.5.3",
     "mysql2-bluebird": "0.0.4",
     "node-datetime": "^2.0.6",
+    "password-hash": "^1.2.2",
+    "password-hash-node": "^1.0.0",
     "pg-promise": "^8.4.4",
     "pug": "2.0.0-beta11",
     "uuid": "^3.2.1"

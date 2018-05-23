@@ -11,6 +11,7 @@ npm install jsonwebtoken --save
 npm install uuid --save
 npm install pg-promise --save
 npm install http-errors --save
+npm install password-hash-node --save
 cd ..
 
 cd cafemates-users-services
@@ -25,6 +26,8 @@ npm install pg-promise --save
 npm install sluger --save
 npm install tofixed  --save
 npm install get-age --save
+npm install password-hash-node --save
+
 cd ..
 
 cd cafemates-cafemates-services

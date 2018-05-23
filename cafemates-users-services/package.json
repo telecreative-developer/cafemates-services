@@ -19,6 +19,8 @@
     "jsonwebtoken": "^8.2.1",
     "morgan": "~1.9.0",
     "node-datetime": "^2.0.6",
+    "password-hash": "^1.2.2",
+    "password-hash-node": "^1.0.0",
     "pg-promise": "^8.4.4",
     "sluger": "^1.0.3",
     "tofixed": "^1.0.0"

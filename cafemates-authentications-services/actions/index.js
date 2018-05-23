@@ -4,22 +4,21 @@ const bcrypt = require('bcrypt')
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
 const jwt = require('jsonwebtoken')
+const passwordHash = require('password-hash-node')
 const { errorResponse, successResponse } = require('../responsers')
 
 exports.authenticationUser = async((email, password) => {
   try {
     const response = await(db.any(`SELECT * FROM users WHERE email='${email}' LIMIT 1`))
-    if(response.length) {
-      const responsePassword = bcrypt.compare(password, response[0].password)
-      if(responsePassword) {
-        const [accessToken, refreshToken, id] = await(createTokens(response[0].id))
+    const mapPassword = await(response.map(pass => pass.password).toString())
+    const responsePwd = passwordHash.verify(password, mapPassword)
+    if(responsePwd) {
+      const [accessToken, refreshToken, id] = await(createTokens(response[0].id))
         const users_id = response[0].id
         return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
         return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
-      }else {
-        return errorResponse('Email or password is incorrect', 401)
-      }
-    }else {
+    }
+    else{
       return errorResponse('Email or password is incorrect', 401)
     }
   }catch(e) {

@@ -8,6 +8,7 @@ const toFixed = require('tofixed');
 const salt = bcrypt.genSaltSync(10)
 const uuidv1 = require('uuid/v1')
 const getAge = require("get-age")
+const passwordHash = require('password-hash-node')
 
 const { errorResponse, successResponse } = require('../responsers')
 
@@ -21,6 +22,8 @@ exports.registerUsers = async((data) => {
     else{
       const username = data.first_name+data.last_name+datetime.create().format('HdIS')
       const dateNow = datetime.create().format('Y-m-d') - data.bod;
+      const passwordTrue = await(passwordHash.create(data.password, "SSHA"))
+      console.log(passwordTrue)
       const response = await(db.any(`
         INSERT INTO users(first_name, last_name ,username, email, password, status_user, avatar_url, gender, aggrement, bod, age, licence, created_at, updated_at)
         VALUES(
@@ -28,11 +31,11 @@ exports.registerUsers = async((data) => {
           '${data.last_name}',
           '${username}',
           '${data.email}',
-          '${bcrypt.hashSync(data.password, salt)}',
+          '${passwordTrue}',
           '1',
           '${data.avatar_url}',
           '${data.gender}',
-          '1,
+          '1',
           '${data.bod}',
           '${getAge(data.bod)}',
           '1',
@@ -55,6 +58,8 @@ exports.registerUsers = async((data) => {
 
 exports.updateUser = async((id, data) => {
   try{
+    const passwordTrue = await(passwordHash.create(data.password, "SSHA"))
+    
     if(data.password === null || data.password === ""){
       const response = await(db.any(`
         UPDATE users SET
@@ -98,7 +103,7 @@ exports.updateUser = async((id, data) => {
             about='${data.about}',
             email='${data.email}',
             background_url='${data.background_url}',
-            password='${bcrypt.hashSync(data.password, salt)}'
+            password='${passwordTrue}'
         WHERE id='${id}'
       `))
       console.log('password')
