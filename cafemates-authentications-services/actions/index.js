@@ -12,9 +12,10 @@ exports.authenticationUser = async((email, password) => {
     if(response.length) {
       const responsePassword = bcrypt.compare(password, response[0].password)
       if(responsePassword) {
-        const [accessToken, id ,refreshToken] = await(createTokens(response[0].id))
-        return successResponse({accessToken, refreshToken}, response[0].id, 'Login success', 201)
-        return successResponse({accessToken, refreshToken}, response[0].id, 'Login success', 201)
+        const [accessToken, refreshToken, id] = await(createTokens(response[0].id))
+        const users_id = response[0].id
+        return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
+        return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
       }else {
         return errorResponse('Email or password is incorrect', 401)
       }
