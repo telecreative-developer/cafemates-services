@@ -2,11 +2,16 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { upgradeLicence, updateUser, updateCover, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
+const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
 const authentication = require('../../authentication')
 
 router.get('/:id', authentication, async(function(req, res, next) {
   const response = await(retrieveUsersByID(req.params.id))
+  return res.status(response.status).json(response)
+}))
+
+router.get('/email/:email', authentication, async(function(req, res, next) {
+  const response = await(retrieveUsersByEmail(req.params.email))
   return res.status(response.status).json(response)
 }))
 

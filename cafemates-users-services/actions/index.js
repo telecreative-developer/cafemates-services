@@ -121,6 +121,19 @@ exports.retrieveUsersByID = async((id) => {
   }
 })
 
+exports.retrieveUsersByEmail = async((email) => {
+  try{
+    const response = await(db.any(`SELECT * FROM users WHERE email='${email}' AND status_user='1'`))
+    
+    return successResponse(response, 'Berhasil Mendapatkan data user', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
+
+
 exports.updatePassword = async((data, id) => {
   try {
     const responseUser = await(db.query(`SELECT * FROM users WHERE id='${id}' LIMIT 1`))
