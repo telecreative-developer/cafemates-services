@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
+const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsers, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
 const authentication = require('../../authentication')
 
 router.get('/', authentication, async(function(req, res, next) {
