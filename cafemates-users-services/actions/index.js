@@ -20,7 +20,7 @@ exports.registerUsers = async((data) => {
       return errorResponse('Email sudah digunakan', 401)
     }
     else{
-      const username = data.first_name+data.last_name+datetime.create().format('HdIS')
+      const username = data.first_name+datetime.create().format('HdIS')
       const dateNow = datetime.create().format('Y-m-d') - data.bod;
       const passwordTrue = await(passwordHash.create(data.password, "SSHA"))
       console.log(passwordTrue)
