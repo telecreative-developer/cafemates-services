@@ -25,6 +25,23 @@ exports.retrieveCafemates = async(() => {
   }
 })
 
+exports.retrieveCafematesByID = async((id) => {
+  try{
+    const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
+    username, email, location_name,
+    cafemates.id,
+    cafemates.longitude, avatar_url,
+    first_name, last_name, age,
+    cafemates.latitude, description
+    FROM cafemates, users WHERE cafemates.id = users.id AND users.id = '${id}' AND status_cafemates='1'`))
+
+    return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
 exports.endLocation = async(() => {
   try{
     const response = await(db.any(`
