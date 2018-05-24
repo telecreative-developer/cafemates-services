@@ -13,7 +13,7 @@ const { errorResponse, successResponse } = require('../responsers')
 exports.retrieveChattingById = async((id, sender_id) => {
   try{
     const response = await(db.any(`
-      SELECT first_name, last_name, avatar_url, age, content, sender_id, chatting.created_at as created_at_chatting
+      SELECT first_name, last_name, avatar_url, age, content, sender_id, code_id, chatting.created_at as created_at_chatting
       FROM users, chatting WHERE chatting.id = users.id AND chatting.id='${id}' and sender_id='${sender_id}'
     `))
     return successResponse(response, 'Berhasil Mendapatkan data chatting', 200)
@@ -57,8 +57,8 @@ exports.postChatting = async((data) => {
           '${data.sender_id}',
           '${data.id}',
           '${check_chatting[0].code_id}',
-          '${datetime.create().format('Y-m-d')}',
-          '${datetime.create().format('Y-m-d')}'
+          '${datetime.create().format('Y-m-d H:M')}',
+          '${datetime.create().format('Y-m-d H:M')}'
         )
       `))
     return successResponse(response, 'Berhasil Mengirimkan Chatting', 200)
@@ -70,8 +70,8 @@ exports.postChatting = async((data) => {
           '${data.sender_id}',
           '${data.id}',
           '${uuidv1()}',
-          '${datetime.create().format('Y-m-d')}',
-          '${datetime.create().format('Y-m-d')}'
+          '${datetime.create().format('Y-m-d H:M')}',
+          '${datetime.create().format('Y-m-d H:M')}'
         )
       `))
       console.log(response)

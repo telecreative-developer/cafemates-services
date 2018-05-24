@@ -115,6 +115,17 @@ exports.updateUser = async((id, data) => {
   }
 })
 
+exports.retrieveUsers = async(() => {
+  try{
+    const response = await(db.any(`SELECT * FROM users WHERE status_user='1'`))
+    
+    return successResponse(response, 'Berhasil Mendapatkan data user', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
 exports.retrieveUsersByID = async((id) => {
   try{
     const response = await(db.any(`SELECT * FROM users WHERE id='${id}' AND status_user='1'`))
