@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsers, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
+const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsers, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, deleteAllUsers, updatePassword, updateAvatar} = require('../../actions')
 const authentication = require('../../authentication')
 
 router.get('/', authentication, async(function(req, res, next) {
@@ -52,6 +52,11 @@ router.put('/deactived-user/:id', authentication,  async(function(req, res, next
 
 router.delete('/delete-user/:id', authentication,  async(function(req, res, next) {
   const response = await(deleteUsers(req.params.id))
+  return res.status(response.status).json(response)
+}))
+
+router.delete('/delete-user/all', authentication,  async(function(req, res, next) {
+  const response = await(deleteAllUsers(req.params.id))
   return res.status(response.status).json(response)
 }))
 

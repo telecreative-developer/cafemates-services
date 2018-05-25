@@ -218,6 +218,16 @@ exports.deleteUsers = async((id) => {
   }
 })
 
+exports.deleteAllUsers = async((id) => {
+  try {
+      const response = await(db.query(`DELETE * FROM users`))
+      return successResponse(response, 'User Tidak Aktif', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
 exports.upgradeLicence = async((data) => {
   try {
       const response = await(db.query(`
