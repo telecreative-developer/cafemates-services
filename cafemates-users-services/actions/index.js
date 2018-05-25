@@ -218,7 +218,7 @@ exports.deleteUsers = async((id) => {
   }
 })
 
-exports.deleteAllUsers = async((id) => {
+exports.deleteAllUsers = async(() => {
   try {
       const response = await(db.query(`DELETE FROM users`))
       return successResponse(response, 'User Tidak Aktif', 200)
