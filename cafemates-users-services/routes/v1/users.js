@@ -55,7 +55,7 @@ router.delete('/delete-user/:id', authentication,  async(function(req, res, next
   return res.status(response.status).json(response)
 }))
 
-router.delete('/delete-user/all',  async(function(req, res, next) {
+router.delete('/delete-user',  async(function(req, res, next) {
   const response = await(deleteAllUsers())
   return res.status(response.status).json(response)
 }))
