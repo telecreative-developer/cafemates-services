@@ -35,7 +35,7 @@ router.put('/change-password/:id', authentication,  async(function(req, res, nex
   return res.status(response.status).json(response)
 }))
 
-router.put('/change-avatar/:id', authentication,  async(function(req, res, next) {
+router.put('/change-avatar/:email',  async(function(req, res, next) {
   const response = await(updateAvatar(req.params.id, req.body))
   return res.status(response.status).json(response)
 }))

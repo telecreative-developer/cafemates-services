@@ -170,11 +170,11 @@ exports.updatePassword = async((data, id) => {
 })
 
 // image
-exports.updateAvatar = async((id, data) => {
+exports.updateAvatar = async((email, data) => {
   try {
       const response = await(db.query(`UPDATE users SET 
       avatar_url='${data.avatar_url}'
-      WHERE id=${id}`))
+      WHERE email=${email}`))
       return successResponse(response, 'Berhasil Merubah Avatar', 200)
   }catch(e) {
     console.log(e)
