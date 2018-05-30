@@ -28,7 +28,7 @@ exports.retrieveCafemates = async(() => {
 exports.retrieveCafematesByID = async((id) => {
   try{
     const response = await(db.any(`SELECT cafemates.created_at as created_at,
-    username, email, location_name,
+    username, email, cafemates.location_name,
     cafemates.id,
     cafemates.longitude, avatar_url,
     first_name, last_name, age,
@@ -58,7 +58,7 @@ exports.endLocation = async(() => {
 exports.retrieveBasecampByID = async((id) => {
   try{
     const basecamp = await(db.any(`SELECT basecamps.created_at as created_at_basecamps,
-    username, email, location_name,
+    username, email, cafemates.location_name,
     basecamps.id,
     basecamps.longitude, avatar_url,
     first_name, last_name, age,
