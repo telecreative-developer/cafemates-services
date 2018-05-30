@@ -11,7 +11,7 @@ const moment = require('moment')
 exports.retrieveCafemates = async(() => {
   try{
     const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
-    username, email, location_name,
+    username, email, cafemates.location_name,
     cafemates.id,
     cafemates.longitude, avatar_url,
     first_name, last_name, age,
