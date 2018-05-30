@@ -123,8 +123,8 @@ exports.joinCafemates = async((data) => {
         '${data.cafemates_group_id}',
         '1',
         '${data.master_room_id}',
-        '1'
-        '1',
+        true
+        true,
         '${datetime.create().format('Y-m-d')}',
         '${datetime.create().format('Y-m-d')}'
       )
