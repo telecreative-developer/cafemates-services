@@ -10,7 +10,7 @@ const moment = require('moment')
 
 exports.retrieveCafemates = async(() => {
   try{
-    const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
+    const response = await(db.any(`SELECT cafemates.created_at as created_at,
     username, email, cafemates.location_name,
     cafemates.id,
     cafemates.longitude, avatar_url,
@@ -27,7 +27,7 @@ exports.retrieveCafemates = async(() => {
 
 exports.retrieveCafematesByID = async((id) => {
   try{
-    const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
+    const response = await(db.any(`SELECT cafemates.created_at as created_at,
     username, email, location_name,
     cafemates.id,
     cafemates.longitude, avatar_url,
