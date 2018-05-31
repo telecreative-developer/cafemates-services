@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { removeMyRequest, confirmUserList, getNotification, endLocation, retrieveCafemates, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
+const { removeMyRequest, confirmUserList, getNotification, endLocation, retrieveAllCafemates, retrieveCafematesFilter, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
 const authentication = require('../../authentication')
 
 
