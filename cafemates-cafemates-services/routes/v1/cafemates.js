@@ -12,8 +12,8 @@ router.get('/', async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-router.get('/:gender&:age_first&:age_last', async(function(req, res, next) {
-  const response = await(retrieveCafematesFilter(req.params.gender, req.params.age_first, req.params.age_last))
+router.get('/:genderMan&:genderWoman&:age_first&:age_last', async(function(req, res, next) {
+  const response = await(retrieveCafematesFilter(req.params.genderMan, req.params.genderWoman, req.params.age_first, req.params.age_last))
   return res.status(response.status).json(response)
 }))
 

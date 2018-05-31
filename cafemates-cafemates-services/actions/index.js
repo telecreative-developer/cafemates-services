@@ -25,18 +25,53 @@ exports.retrieveAllCafemates = async(() => {
   }
 })
 
-exports.retrieveCafematesFilter = async((gender, age_first, age_last) => {
+exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_last) => {
   try{
-    const response = await(db.any(`SELECT cafemates.created_at as created_at,
-    username, email, cafemates.location_name,
-    cafemates.id,
-    cafemates.longitude, avatar_url,
-    first_name, last_name, age,
-    cafemates.latitude, description
-    FROM cafemates, users 
-    WHERE cafemates.id = users.id AND status_cafemates='1' AND users.gender=${gender} AND users.age BETWEEN '${age_first}' AND '${age_last}'`
-    ))
-    return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    if( genderMan == true && genderWoman == true ){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description
+      FROM cafemates, users 
+      WHERE cafemates.id = users.id AND status_cafemates='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else if (genderMan == true && genderWoman == false){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description
+      FROM cafemates, users 
+      WHERE cafemates.id = users.id AND status_cafemates='1' AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else if (genderMan == false && genderWoman == true){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description
+      FROM cafemates, users 
+      WHERE cafemates.id = users.id AND status_cafemates='1' AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else{
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description
+      FROM cafemates, users 
+      WHERE cafemates.id = users.id AND status_cafemates='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }
   }catch(e) {
     console.log(e)
     return errorResponse(e, 500)
