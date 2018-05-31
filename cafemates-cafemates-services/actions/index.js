@@ -27,7 +27,7 @@ exports.retrieveAllCafemates = async(() => {
 
 exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_last) => {
   try{
-    if( genderMan == true && genderWoman == true ){
+    if( genderMan == 'true' && genderWoman == 'true' ){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
       username, email, cafemates.location_name,
       cafemates.id,
@@ -38,7 +38,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       WHERE cafemates.id = users.id AND status_cafemates='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
-    }else if (genderMan == true && genderWoman == false){
+    }else if (genderMan == 'true' && genderWoman == 'false'){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
       username, email, cafemates.location_name,
       cafemates.id,
@@ -49,7 +49,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       WHERE cafemates.id = users.id AND status_cafemates='1' AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
-    }else if (genderMan == false && genderWoman == true){
+    }else if (genderMan == 'false' && genderWoman == 'true'){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
       username, email, cafemates.location_name,
       cafemates.id,
