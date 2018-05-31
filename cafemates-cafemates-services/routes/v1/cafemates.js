@@ -8,7 +8,12 @@ const authentication = require('../../authentication')
 
 
 router.get('/', async(function(req, res, next) {
-  const response = await(retrieveCafemates())
+  const response = await(retrieveAllCafemates())
+  return res.status(response.status).json(response)
+}))
+
+router.get('/:gender&:age_first&:age_last', async(function(req, res, next) {
+  const response = await(retrieveCafematesFilter(req.params.gender, req.params.age_first, req.params.age_last))
   return res.status(response.status).json(response)
 }))
 
