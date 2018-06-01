@@ -156,7 +156,7 @@ exports.postCafemates = async((data) => {
         '${data.latitude}',
         '${data.description}',
         '1',
-        '${data.type_cafemates}',
+        '0',
         '${expired}',
         '${datetime.create().format('Y-m-d H:M')}',
         '${datetime.create().format('Y-m-d H:M')}'
