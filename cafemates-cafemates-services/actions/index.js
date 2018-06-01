@@ -8,14 +8,18 @@ const toFixed = require('tofixed');
 const moment = require('moment')
 
 
-exports.retrieveAllCafemates = async((id) => {
+exports.retrieveAllCafemates = async(() => {
   try{
     const response = await(db.any(`SELECT cafemates.created_at as created_at,
-    username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-    cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-    FROM cafemates, cafemates_groups, users 
-    WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
-    AND cafemates_groups.id = '${id}' AND status_cafemates='1'`))
+    username, email, cafemates.location_name,
+    cafemates.id as open_id , status_approved,
+    cafemates.longitude, avatar_url,
+    first_name, last_name, age,
+    cafemates.latitude, description, cafemates_groups.id as join_id
+    FROM cafemates
+    INNER JOIN users ON users.id = cafemates.id
+    LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id  
+    `))
 
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
@@ -24,45 +28,57 @@ exports.retrieveAllCafemates = async((id) => {
   }
 })
 
-exports.retrieveCafematesFilter = async((id, genderMan, genderWoman, age_first, age_last) => {
+exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_last) => {
   try{
     if( genderMan == 'true' && genderWoman == 'true' ){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
-      username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-      cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-      FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
-      AND cafemates_groups.id = '${id}' AND status_cafemates='1' 
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
       AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else if (genderMan == 'true' && genderWoman == 'false'){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
-      username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-      cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-      FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
-      AND cafemates_groups.id = '${id}' AND status_cafemates='1' 
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
       AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else if (genderMan == 'false' && genderWoman == 'true'){
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
-      username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-      cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-      FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
-      AND cafemates_groups.id = '${id}' AND status_cafemates='1' 
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id
       AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else{
       const response = await(db.any(`SELECT cafemates.created_at as created_at,
-      username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-      cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-      FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
-      AND cafemates_groups.id = '${id}' AND status_cafemates='1'
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id
       AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
@@ -76,11 +92,15 @@ exports.retrieveCafematesFilter = async((id, genderMan, genderWoman, age_first, 
 exports.retrieveCafematesByID = async((id) => {
   try{
     const response = await(db.any(`SELECT cafemates.created_at as created_at,
-    username, email, cafemates.location_name, cafemates.id, cafemates_groups.status_approved,
-    cafemates.longitude, avatar_url, first_name, last_name, age, cafemates.latitude, description
-    FROM cafemates, cafemates_groups, users 
-    WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id
-     AND users.id = '${id}' AND status_cafemates='1'`))
+    username, email, cafemates.location_name,
+    cafemates.id as open_id , status_approved,
+    cafemates.longitude, avatar_url,
+    first_name, last_name, age,
+    cafemates.latitude, description, cafemates_groups.id as join_id
+    FROM cafemates
+    INNER JOIN users ON users.id = cafemates.id
+    LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
+    WHERE users.id = '${id}' AND status_cafemates='1'`))
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
     console.log(e)
