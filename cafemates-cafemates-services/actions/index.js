@@ -17,7 +17,7 @@ exports.retrieveAllCafemates = async(() => {
     first_name, last_name, age,
     cafemates.latitude, description
     FROM cafemates, cafemates_groups, users 
-    WHERE cafemates.id = users.id AND status_cafemates='1'`))
+    WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND status_cafemates='1'`))
 
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
@@ -36,7 +36,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       first_name, last_name, age,
       cafemates.latitude, description
       FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND status_cafemates='1' 
+      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND status_cafemates='1' 
       AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
@@ -48,7 +48,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       first_name, last_name, age,
       cafemates.latitude, description
       FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND status_cafemates='1' 
+      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND status_cafemates='1' 
       AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
@@ -60,7 +60,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       first_name, last_name, age,
       cafemates.latitude, description
       FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND status_cafemates='1' 
+      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND status_cafemates='1' 
       AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
@@ -72,7 +72,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       first_name, last_name, age,
       cafemates.latitude, description
       FROM cafemates, cafemates_groups, users 
-      WHERE cafemates.id = users.id AND status_cafemates='1' 
+      WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND status_cafemates='1' 
       AND users.age BETWEEN '${age_first}' AND '${age_last}'`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
@@ -92,7 +92,7 @@ exports.retrieveCafematesByID = async((id) => {
     first_name, last_name, age,
     cafemates.latitude, description
     FROM cafemates, cafemates_groups, users 
-    WHERE cafemates.id = users.id AND users.id = '${id}' AND status_cafemates='1'`))
+    WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id AND users.id = '${id}' AND status_cafemates='1'`))
 
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
