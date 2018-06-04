@@ -279,14 +279,14 @@ exports.removeMyRequest = async((id) => {
 exports.acceptJoin = async((data) => {
   try{
     const response = await(db.any(`
-      UPDATE cafemates_groups SET status_approved='3' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}'
+      UPDATE cafemates_groups SET status_approved='3' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}'
      `))
      const notification = await(db.any(`
         INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
-          '${data.id}',
+          '${data.join_id}',
           '3',
-          '${data.sender_id}',
+          '${data.open_id}',
           '${datetime.create().format('Y-m-d H:M:S')}',
           '${datetime.create().format('Y-m-d H:M:S')}'
         )
@@ -301,15 +301,15 @@ exports.acceptJoin = async((data) => {
 exports.rejectJoin = async((data) => {
   try{
     const response = await(db.any(`
-      UPDATE cafemates_groups SET status_approved='2' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}' 
+      UPDATE cafemates_groups SET status_approved='2' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}' 
     `))
 
     const notification = await(db.any(`
         INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
-          '${data.id}',
+          '${data.join_id}',
           '2',
-          '${data.sender_id}',
+          '${data.open_id}',
           '${datetime.create().format('Y-m-d H:M:S')}',
           '${datetime.create().format('Y-m-d H:M:S')}'
         )
