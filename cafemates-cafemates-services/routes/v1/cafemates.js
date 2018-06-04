@@ -82,7 +82,7 @@ router.get('/get-notification/:id', async(function(req, res, next) {
 }))
 module.exports = router;
 
-router.get('/get-notification/join/:id', async(function(req, res, next) {
+router.get('/get-notification/request/:id', async(function(req, res, next) {
   const response = await(getNotification(req.params.id))
   return res.status(response.status).json(response)
 }))
