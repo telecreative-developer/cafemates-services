@@ -158,8 +158,8 @@ exports.postCafemates = async((data) => {
         '1',
         '0',
         '${expired}',
-        '${datetime.create().format('Y-m-d H:M')}',
-        '${datetime.create().format('Y-m-d H:M')}'
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
       )
     `))
     return successResponse(expired, 'Berhasil Menambahkan Cafemates', 200)
@@ -190,17 +190,19 @@ exports.joinCafemates = async((data) => {
         '${data.master_room_id}',
         true,
         true,
-        '${datetime.create().format('Y-m-d H:M')}',
-        '${datetime.create().format('Y-m-d H:M')}'
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
       )
     `))
 
     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
+        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
           '${data.master_room_id}',
           '1',
-          '${data.id}'
+          '${data.id}',
+          '${datetime.create().format('Y-m-d H:M:S')}',
+          '${datetime.create().format('Y-m-d H:M:S')}'
         )
      `))
     return successResponse(expired, 'Berhasil Join ke Cafemates', 200)
@@ -280,11 +282,13 @@ exports.acceptJoin = async((data) => {
       UPDATE cafemates_groups SET status_approved='3' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}'
      `))
      const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
+        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
           '${data.id}',
           '3',
-          '${data.sender_id}'
+          '${data.sender_id}',
+          '${datetime.create().format('Y-m-d H:M:S')}',
+          '${datetime.create().format('Y-m-d H:M:S')}'
         )
      `))
     return successResponse(response, 'Berhasil Menerima request ', 200)
@@ -301,11 +305,13 @@ exports.rejectJoin = async((data) => {
     `))
 
     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
+        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
           '${data.id}',
           '2',
-          '${data.sender_id}'
+          '${data.sender_id}',
+          '${datetime.create().format('Y-m-d H:M:S')}',
+          '${datetime.create().format('Y-m-d H:M:S')}'
         )
     `))
     return successResponse(response, 'Berhasil Menolak request ', 200)
@@ -319,7 +325,7 @@ exports.rejectJoin = async((data) => {
 exports.getNotification = async((id) => {
   try{
     const response = await(db.any(`
-    SELECT  first_name, last_name, avatar_url,  status_notification, notification.id, sender_id FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
+    SELECT  first_name, last_name, avatar_url,  status_notification, notification.id, sender_id, created_at, updated_at FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
     `))
     return successResponse(response, 'Berhasil Mendapatkan Notification ', 200)
   }catch(e) {
