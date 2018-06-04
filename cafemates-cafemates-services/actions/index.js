@@ -319,7 +319,7 @@ exports.rejectJoin = async((data) => {
 exports.getNotification = async((id) => {
   try{
     const response = await(db.any(`
-    SELECT  first_name, last_name, status_notification, notification.id, sender_id FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
+    SELECT  first_name, last_name, avatar_url,  status_notification, notification.id, sender_id FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
     `))
     return successResponse(response, 'Berhasil Mendapatkan Notification ', 200)
   }catch(e) {
