@@ -39,8 +39,8 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
-      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
-      AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else if (genderMan == 'true' && genderWoman == 'false'){
@@ -52,8 +52,8 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
-      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
-      AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id` 
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else if (genderMan == 'false' && genderWoman == 'true'){
@@ -65,8 +65,8 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
-      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id
-      AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }else{
@@ -78,8 +78,8 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
-      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id
-      AND users.age BETWEEN '${age_first}' AND '${age_last}'`
+      AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
       ))
       return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
     }
