@@ -14,7 +14,7 @@ exports.retrieveAllCafemates = async(() => {
     username, email, cafemates.location_name,
     cafemates.id as open_id , status_approved,
     cafemates.longitude, avatar_url,
-    first_name, last_name, age,
+    first_name, last_name, age, gender,
     cafemates.latitude, description, cafemates_groups.id as join_id
     FROM cafemates
     INNER JOIN users ON users.id = cafemates.id
@@ -35,7 +35,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       username, email, cafemates.location_name,
       cafemates.id as open_id , status_approved,
       cafemates.longitude, avatar_url,
-      first_name, last_name, age,
+      first_name, last_name, age, gender,
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
@@ -48,7 +48,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       username, email, cafemates.location_name,
       cafemates.id as open_id , status_approved,
       cafemates.longitude, avatar_url,
-      first_name, last_name, age,
+      first_name, last_name, age, gender,
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
@@ -61,7 +61,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       username, email, cafemates.location_name,
       cafemates.id as open_id , status_approved,
       cafemates.longitude, avatar_url,
-      first_name, last_name, age,
+      first_name, last_name, age, gender,
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
@@ -74,7 +74,7 @@ exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_
       username, email, cafemates.location_name,
       cafemates.id as open_id , status_approved,
       cafemates.longitude, avatar_url,
-      first_name, last_name, age,
+      first_name, last_name, age, gender,
       cafemates.latitude, description, cafemates_groups.id as join_id
       FROM cafemates
       INNER JOIN users ON users.id = cafemates.id
@@ -95,7 +95,7 @@ exports.retrieveCafematesByID = async((id) => {
     username, email, cafemates.location_name,
     cafemates.id as open_id , status_approved,
     cafemates.longitude, avatar_url,
-    first_name, last_name, age,
+    first_name, last_name, age, gender,
     cafemates.latitude, description, cafemates_groups.id as join_id
     FROM cafemates
     INNER JOIN users ON users.id = cafemates.id
@@ -127,7 +127,7 @@ exports.retrieveBasecampByID = async((id) => {
     username, email, cafemates.location_name,
     basecamps.id,
     basecamps.longitude, avatar_url,
-    first_name, last_name, age,
+    first_name, last_name, age, gender,
     basecamps.latitude, description
     FROM cafemates, users WHERE cafemates.id = users.id 
     AND basecamp_id='${id}' AND status_basecamp='1' `))
