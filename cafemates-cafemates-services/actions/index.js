@@ -281,16 +281,19 @@ exports.acceptJoin = async((data) => {
     const response = await(db.any(`
       UPDATE cafemates_groups SET status_approved='3' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}'
      `))
-     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
-        VALUES(
-          '${data.join_id}',
-          '3',
-          '${data.open_id}',
-          '${datetime.create().format('Y-m-d H:M:S')}',
-          '${datetime.create().format('Y-m-d H:M:S')}'
-        )
-     `))
+    const notification = await(db.any(`
+      INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
+      VALUES(
+        '${data.join_id}',
+        '3',
+        '${data.open_id}',
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
+      )
+    `))
+    const notificationDelete = await(db.any(`
+      DELETE from notification WHERE id='${data.open_id}' AND status_notification='1' AND sender_id='${data.join_id}'
+    `))
     return successResponse(response, 'Berhasil Menerima request ', 200)
   }catch(e) {
     console.log(e)
@@ -303,7 +306,6 @@ exports.rejectJoin = async((data) => {
     const response = await(db.any(`
       UPDATE cafemates_groups SET status_approved='2' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}' 
     `))
-
     const notification = await(db.any(`
         INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
@@ -313,6 +315,9 @@ exports.rejectJoin = async((data) => {
           '${datetime.create().format('Y-m-d H:M:S')}',
           '${datetime.create().format('Y-m-d H:M:S')}'
         )
+    `))
+    const notificationDelete = await(db.any(`
+      DELETE from notification WHERE id='${data.open_id}' AND status_notification='1' AND sender_id='${data.join_id}'
     `))
     return successResponse(response, 'Berhasil Menolak request ', 200)
   }catch(e) {
