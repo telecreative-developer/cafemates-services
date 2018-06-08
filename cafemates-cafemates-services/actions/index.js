@@ -254,7 +254,7 @@ exports.confirmUserList = async((id) => {
 exports.removeRequest = async((id) => {
   try{
     const response = await(db.any(`
-      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE master_room_id='${id}' AND status_approved='1'
+      UPDATE cafemates_groups SET status_group_cafemates='0' WHERE master_room_id='${id}' AND status_approved='1'
     `))
     return successResponse(response, 'Berhasil Menghapus semua request ', 200)
   }catch(e) {
@@ -266,7 +266,7 @@ exports.removeRequest = async((id) => {
 exports.removeMyRequest = async((id) => {
   try{
     const response = await(db.any(`
-      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE id='${id}' AND status_approved='1'
+      UPDATE cafemates_groups SET status_group_cafemates='0' WHERE id='${id}' AND status_approved='1'
     `))
     return successResponse(response, 'Berhasil Menghapus semua request ', 200)
   }catch(e) {
@@ -274,7 +274,6 @@ exports.removeMyRequest = async((id) => {
     return errorResponse(e, 500)
   }
 })
-
 
 exports.acceptJoin = async((data) => {
   try{
