@@ -280,6 +280,11 @@ exports.acceptJoin = async((data) => {
     const response = await(db.any(`
       UPDATE cafemates_groups SET status_approved='3' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}'
      `))
+    
+    const responseReject = await(db.any(`
+    UPDATE cafemates_groups SET status_approved='2' WHERE master_room_id='${data.open_id}' AND id <>'${data.join_id}'
+    `))
+
     const notification = await(db.any(`
       INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
       VALUES(
@@ -290,6 +295,12 @@ exports.acceptJoin = async((data) => {
         '${datetime.create().format('Y-m-d H:M:S')}'
       )
     `))
+
+    const notificationRejectNotSelected = await(db.any(`
+    Update notification set id = sender_id, sender_id = id, status_notification = 2  
+    WHERE id = '${data.open_id}' AND status_notification = 1 AND sender_id <> '${data.join_id}';
+    `))
+
     const notificationDelete = await(db.any(`
       DELETE from notification WHERE id='${data.open_id}' AND status_notification='1' AND sender_id='${data.join_id}'
     `))
