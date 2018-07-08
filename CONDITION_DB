@@ -34,3 +34,7 @@ STATUS_GROUP
 TYPE CAFEMATES
 * 1 HUNTING
 * 0 OPEN PLACE
+
+
+WHERE cafemates.id = users.id AND users.id = cafemates_groups.master_room_id 
+    AND cafemates_groups.id = '${id}' AND status_cafemates='1'

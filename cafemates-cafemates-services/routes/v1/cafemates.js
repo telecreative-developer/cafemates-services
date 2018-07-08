@@ -2,13 +2,18 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { removeMyRequest, confirmUserList, getNotification, endLocation, retrieveCafemates, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
+const { removeMyRequest, confirmUserList, getNotification, endLocation, retrieveAllCafemates, retrieveCafematesFilter, waitingApprovedByOther, acceptJoin, rejectJoin, removeRequest, waitingApproved, joinCafemates, deactiveCafemates, postCafemates, retrieveCafematesByID } = require('../../actions')
 const authentication = require('../../authentication')
 
 
 
 router.get('/', async(function(req, res, next) {
-  const response = await(retrieveCafemates())
+  const response = await(retrieveAllCafemates())
+  return res.status(response.status).json(response)
+}))
+
+router.get('/filter/:genderMan&:genderWoman&:age_first&:age_last', async(function(req, res, next) {
+  const response = await(retrieveCafematesFilter(req.params.genderMan, req.params.genderWoman, req.params.age_first, req.params.age_last))
   return res.status(response.status).json(response)
 }))
 
@@ -22,7 +27,7 @@ router.get('/:id', async(function(req, res, next) {
   return res.status(response.status).json(response)
 }))
 
-router.post('/post', async(function(req, res, next) {
+router.post('/post', authentication, async(function(req, res, next) {
   const response = await(postCafemates(req.body))
   return res.status(response.status).json(response)
 }))
@@ -71,10 +76,14 @@ router.get('/pending-me/:id', authentication, async(function(req, res, next) {
 }))
 
 
-
 router.get('/get-notification/:id', async(function(req, res, next) {
   const response = await(getNotification(req.params.id))
   return res.status(response.status).json(response)
 }))
 module.exports = router;
 
+router.get('/get-notification/request/:id', async(function(req, res, next) {
+  const response = await(getNotification(req.params.id))
+  return res.status(response.status).json(response)
+}))
+module.exports = router;

@@ -8,15 +8,18 @@ const toFixed = require('tofixed');
 const moment = require('moment')
 
 
-exports.retrieveCafemates = async(() => {
+exports.retrieveAllCafemates = async(() => {
   try{
-    const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
-    username, email, location_name,
-    cafemates.id,
+    const response = await(db.any(`SELECT cafemates.created_at as created_at,
+    username, email, cafemates.location_name,
+    cafemates.id as open_id , status_approved,
     cafemates.longitude, avatar_url,
-    first_name, last_name, age,
-    cafemates.latitude, description
-    FROM cafemates, users WHERE cafemates.id = users.id AND status_cafemates='1'`))
+    first_name, last_name, age, gender,
+    cafemates.latitude, description, cafemates_groups.id as join_id
+    FROM cafemates
+    INNER JOIN users ON users.id = cafemates.id
+    LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id  
+    `))
 
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
@@ -25,16 +28,79 @@ exports.retrieveCafemates = async(() => {
   }
 })
 
+exports.retrieveCafematesFilter = async((genderMan, genderWoman, age_first, age_last) => {
+  try{
+    if( genderMan == 'true' && genderWoman == 'true' ){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age, gender,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else if (genderMan == 'true' && genderWoman == 'false'){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age, gender,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      AND users.gender='1' AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id` 
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else if (genderMan == 'false' && genderWoman == 'true'){
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age, gender,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      AND users.gender='0' AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }else{
+      const response = await(db.any(`SELECT cafemates.created_at as created_at,
+      username, email, cafemates.location_name,
+      cafemates.id as open_id , status_approved,
+      cafemates.longitude, avatar_url,
+      first_name, last_name, age, gender,
+      cafemates.latitude, description, cafemates_groups.id as join_id
+      FROM cafemates
+      INNER JOIN users ON users.id = cafemates.id
+      AND users.age BETWEEN '${age_first}' AND '${age_last}'
+      LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id`
+      ))
+      return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
+    }
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
 exports.retrieveCafematesByID = async((id) => {
   try{
-    const response = await(db.any(`SELECT cafemates.created_at as created_at_cafemates,
-    username, email, location_name,
-    cafemates.id,
+    const response = await(db.any(`SELECT cafemates.created_at as created_at,
+    username, email, cafemates.location_name,
+    cafemates.id as open_id , status_approved,
     cafemates.longitude, avatar_url,
-    first_name, last_name, age,
-    cafemates.latitude, description
-    FROM cafemates, users WHERE cafemates.id = users.id AND users.id = '${id}' AND status_cafemates='1'`))
-
+    first_name, last_name, age, gender,
+    cafemates.latitude, description, cafemates_groups.id as join_id
+    FROM cafemates
+    INNER JOIN users ON users.id = cafemates.id
+    LEFT JOIN cafemates_groups ON cafemates_groups.master_room_id = cafemates.id 
+    WHERE users.id = '${id}' AND status_cafemates='1'`))
     return successResponse(response, 'Berhasil Mendapatkan data Cafemates', 200)
   }catch(e) {
     console.log(e)
@@ -58,10 +124,10 @@ exports.endLocation = async(() => {
 exports.retrieveBasecampByID = async((id) => {
   try{
     const basecamp = await(db.any(`SELECT basecamps.created_at as created_at_basecamps,
-    username, email, location_name,
+    username, email, cafemates.location_name,
     basecamps.id,
     basecamps.longitude, avatar_url,
-    first_name, last_name, age,
+    first_name, last_name, age, gender,
     basecamps.latitude, description
     FROM cafemates, users WHERE cafemates.id = users.id 
     AND basecamp_id='${id}' AND status_basecamp='1' `))
@@ -90,10 +156,10 @@ exports.postCafemates = async((data) => {
         '${data.latitude}',
         '${data.description}',
         '1',
-        '${data.type_cafemates}',
+        '0',
         '${expired}',
-        '${datetime.create().format('Y-m-d')}',
-        '${datetime.create().format('Y-m-d')}'
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
       )
     `))
     return successResponse(expired, 'Berhasil Menambahkan Cafemates', 200)
@@ -117,25 +183,26 @@ exports.joinCafemates = async((data) => {
   try{
     const expired = moment().add(15 ,'hours')
     const response = await(db.any(`
-      INSERT INTO cafemates_groups(id, cafemates_id, status_approved, master_room_id, status_group_cafemates, expired,created_at, updated_at)
+      INSERT INTO cafemates_groups(id, status_approved, master_room_id, type_cafemates, status_group_cafemates,created_at, updated_at)
       VALUES(
         '${data.id}',
-        '${data.cafemates_id}',
         '1',
         '${data.master_room_id}',
-        '1',
-        '${expired}',
-        '${datetime.create().format('Y-m-d')}',
-        '${datetime.create().format('Y-m-d')}'
+        true,
+        true,
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
       )
     `))
 
     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
+        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
           '${data.master_room_id}',
           '1',
-          '${data.id}'
+          '${data.id}',
+          '${datetime.create().format('Y-m-d H:M:S')}',
+          '${datetime.create().format('Y-m-d H:M:S')}'
         )
      `))
     return successResponse(expired, 'Berhasil Join ke Cafemates', 200)
@@ -148,8 +215,8 @@ exports.joinCafemates = async((data) => {
 exports.waitingApproved = async((id) => {
   try{
     const response = await(db.any(`
-      SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
-      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 1
+      SELECT cafemates_groups.id, status_approved, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
+      FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 10
     `)) 
     return successResponse(response, 'Berhasil Mendapatkan user pendding', 200)
   }catch(e) {
@@ -161,7 +228,7 @@ exports.waitingApproved = async((id) => {
 exports.waitingApprovedByOther = async((id) => {
   try{
     const response = await(db.any(`
-    SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
+    SELECT cafemates_groups.id, status_approved, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
     FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='1' AND status_group_cafemates='1' LIMIT 1
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
@@ -174,7 +241,7 @@ exports.waitingApprovedByOther = async((id) => {
 exports.confirmUserList = async((id) => {
   try{
     const response = await(db.any(`
-    SELECT cafemates_groups.id, status_approved, cafemates_group_id, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
+    SELECT cafemates_groups.id, status_approved, age, avatar_url, username, first_name,last_name, cafemates_groups.created_at as created_at_group
     FROM cafemates_groups, users WHERE cafemates_groups.id = users.id AND master_room_id='${id}'  AND status_approved='3' AND status_group_cafemates='1' LIMIT 10
     `))
     return successResponse(response, 'Berhasil Mendapatkan user pending ', 200)
@@ -187,7 +254,7 @@ exports.confirmUserList = async((id) => {
 exports.removeRequest = async((id) => {
   try{
     const response = await(db.any(`
-      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE master_room_id='${id}' AND status_approved='1'
+      UPDATE cafemates_groups SET status_group_cafemates='0' WHERE master_room_id='${id}' AND status_approved='1'
     `))
     return successResponse(response, 'Berhasil Menghapus semua request ', 200)
   }catch(e) {
@@ -199,7 +266,7 @@ exports.removeRequest = async((id) => {
 exports.removeMyRequest = async((id) => {
   try{
     const response = await(db.any(`
-      UPDATE FROM cafemates_groups SET status_group_cafemates='0' WHERE id='${id}' AND status_approved='1'
+      UPDATE cafemates_groups SET status_group_cafemates='0' WHERE id='${id}' AND status_approved='1'
     `))
     return successResponse(response, 'Berhasil Menghapus semua request ', 200)
   }catch(e) {
@@ -208,20 +275,35 @@ exports.removeMyRequest = async((id) => {
   }
 })
 
-
 exports.acceptJoin = async((data) => {
   try{
     const response = await(db.any(`
-      UPDATE cafemates_groups SET status_approved='3' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}'
+      UPDATE cafemates_groups SET status_approved='3' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}'
      `))
-     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
-        VALUES(
-          '${data.id}',
-          '3',
-          '${data.sender_id}'
-        )
-     `))
+    
+    const responseReject = await(db.any(`
+    UPDATE cafemates_groups SET status_approved='2' WHERE master_room_id='${data.open_id}' AND id <>'${data.join_id}'
+    `))
+
+    const notification = await(db.any(`
+      INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
+      VALUES(
+        '${data.join_id}',
+        '3',
+        '${data.open_id}',
+        '${datetime.create().format('Y-m-d H:M:S')}',
+        '${datetime.create().format('Y-m-d H:M:S')}'
+      )
+    `))
+
+    const notificationRejectNotSelected = await(db.any(`
+    Update notification set id = sender_id, sender_id = id, status_notification = 2  
+    WHERE id = '${data.open_id}' AND status_notification = 1 AND sender_id <> '${data.join_id}';
+    `))
+
+    const notificationDelete = await(db.any(`
+      DELETE from notification WHERE id='${data.open_id}' AND status_notification='1' AND sender_id='${data.join_id}'
+    `))
     return successResponse(response, 'Berhasil Menerima request ', 200)
   }catch(e) {
     console.log(e)
@@ -232,16 +314,20 @@ exports.acceptJoin = async((data) => {
 exports.rejectJoin = async((data) => {
   try{
     const response = await(db.any(`
-      UPDATE cafemates_groups SET status_approved='2' WHERE cafemates_id='${data.cafemates_id}' AND id='${data.id}' 
+      UPDATE cafemates_groups SET status_approved='2' WHERE master_room_id='${data.open_id}' AND id='${data.join_id}' 
     `))
-
     const notification = await(db.any(`
-        INSERT INTO notification(id, status_notification, sender_id)
+        INSERT INTO notification(id, status_notification, sender_id, created_at, updated_at)
         VALUES(
-          '${data.id}',
+          '${data.join_id}',
           '2',
-          '${data.sender_id}'
+          '${data.open_id}',
+          '${datetime.create().format('Y-m-d H:M:S')}',
+          '${datetime.create().format('Y-m-d H:M:S')}'
         )
+    `))
+    const notificationDelete = await(db.any(`
+      DELETE from notification WHERE id='${data.open_id}' AND status_notification='1' AND sender_id='${data.join_id}'
     `))
     return successResponse(response, 'Berhasil Menolak request ', 200)
   }catch(e) {
@@ -254,7 +340,7 @@ exports.rejectJoin = async((data) => {
 exports.getNotification = async((id) => {
   try{
     const response = await(db.any(`
-    SELECT  first_name, last_name, status_notification, notification.id, sender_id FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}'
+    SELECT  first_name, last_name, avatar_url,  status_notification, notification.id, sender_id, notification.created_at, notification.updated_at FROM notification, users WHERE notification.sender_id = users.id AND notification.id='${id}' ORDER BY created_at DESC
     `))
     return successResponse(response, 'Berhasil Mendapatkan Notification ', 200)
   }catch(e) {
@@ -263,4 +349,15 @@ exports.getNotification = async((id) => {
   }
 })
 
+exports.getNotificationJoin = async((id) => {
+  try{
+    const response = await(db.any(`
+    SELECT  first_name, last_name, avatar_url,  status_notification, notification.id, sender_id, notification.created_at, notification.updated_at FROM notification, users WHERE notification.id = users.id AND notification.sender_id='${id}'
+    `))
+    return successResponse(response, 'Berhasil Mendapatkan Notification ', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
 

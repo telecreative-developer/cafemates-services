@@ -15,8 +15,10 @@ exports.authenticationUser = async((email, password) => {
     if(responsePwd) {
       const [accessToken, refreshToken, id] = await(createTokens(response[0].id))
         const users_id = response[0].id
-        return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
-        return successResponse({accessToken, refreshToken, users_id}, 'Login success', 201)
+        const avatar_url = response[0].avatar_url
+        const first_name = response[0].first_name
+        return successResponse({accessToken, refreshToken, users_id, avatar_url, first_name}, 'Login success', 201)
+        return successResponse({accessToken, refreshToken, users_id, avatar_url, first_name}, 'Login success', 201)
     }
     else{
       return errorResponse('Email or password is incorrect', 401)

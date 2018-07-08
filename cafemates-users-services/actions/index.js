@@ -170,11 +170,11 @@ exports.updatePassword = async((data, id) => {
 })
 
 // image
-exports.updateAvatar = async((id, data) => {
+exports.updateAvatar = async((email, data) => {
   try {
       const response = await(db.query(`UPDATE users SET 
       avatar_url='${data.avatar_url}'
-      WHERE id=${id}`))
+      WHERE email='${email}'`))
       return successResponse(response, 'Berhasil Merubah Avatar', 200)
   }catch(e) {
     console.log(e)
@@ -211,6 +211,16 @@ exports.deleteUsers = async((id) => {
   try {
       const response = await(db.query(`DELETE FROM users
       WHERE id=${id}`))
+      return successResponse(response, 'User Telah Terhapus', 200)
+  }catch(e) {
+    console.log(e)
+    return errorResponse(e, 500)
+  }
+})
+
+exports.deleteAllUsers = async(() => {
+  try {
+      const response = await(db.query(`DELETE FROM users`))
       return successResponse(response, 'User Tidak Aktif', 200)
   }catch(e) {
     console.log(e)

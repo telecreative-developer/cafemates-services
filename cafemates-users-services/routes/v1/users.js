@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const async = require('asyncawait/async')
 const await = require('asyncawait/await')
-const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsers, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, updatePassword, updateAvatar} = require('../../actions')
+const { retrieveUsersByEmail, upgradeLicence, updateUser, updateCover, retrieveUsers, retrieveUsersByID, registerUsers, deActiveUsers, deleteUsers, deleteAllUsers, updatePassword, updateAvatar} = require('../../actions')
 const authentication = require('../../authentication')
 
 router.get('/', authentication, async(function(req, res, next) {
@@ -35,8 +35,8 @@ router.put('/change-password/:id', authentication,  async(function(req, res, nex
   return res.status(response.status).json(response)
 }))
 
-router.put('/change-avatar/:id', authentication,  async(function(req, res, next) {
-  const response = await(updateAvatar(req.params.id, req.body))
+router.put('/change-avatar/:email',  async(function(req, res, next) {
+  const response = await(updateAvatar(req.params.email, req.body))
   return res.status(response.status).json(response)
 }))
 
@@ -52,6 +52,11 @@ router.put('/deactived-user/:id', authentication,  async(function(req, res, next
 
 router.delete('/delete-user/:id', authentication,  async(function(req, res, next) {
   const response = await(deleteUsers(req.params.id))
+  return res.status(response.status).json(response)
+}))
+
+router.delete('/delete-user',  async(function(req, res, next) {
+  const response = await(deleteAllUsers())
   return res.status(response.status).json(response)
 }))
 
